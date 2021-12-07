@@ -47,13 +47,31 @@ class Opening:
     # Defines the vertices and faces        
     def generate(self):
         self.vertices = [ 
-                # Définir ici les sommets
+                [0, 0, 0 ], 
+                [0, 0, self.parameters['height']], 
+                [self.parameters['width'], 0, self.parameters['height']],
+                [self.parameters['width'], 0, 0], 
+                [0,self.parameters['thickness'] , 0 ], 
+                [0, self.parameters['thickness'], self.parameters['height']], 
+                [self.parameters['width'], self.parameters['thickness'], self.parameters['height']],
+                [self.parameters['width'], self.parameters['thickness'], 0], 
                 ]
         self.faces = [
-                # définir ici les faces
-                ]   
+                [1,5,6,2],
+                [0,1,5,4],
+                [0,4,7,3],
+                [3,2,6,7],
+                ]
         
     # Draws the faces                
     def draw(self):        
-        # A compléter en remplaçant pass par votre code
-        pass
+        gl.glPushMatrix()
+        gl.glTranslate(self.parameters['position'][0],self.parameters['position'][1],self.parameters['position'][2])
+        gl.glPolygonMode(gl.GL_FRONT_AND_BACK, gl.GL_FILL)
+        for i in self.faces :
+            gl.glBegin(gl.GL_QUADS)
+            gl.glColor3fv([0.5,0.5,0.5])
+            for j in i:
+                gl.glVertex3fv(self.vertices[j])
+            gl.glEnd()
+        gl.glPopMatrix()

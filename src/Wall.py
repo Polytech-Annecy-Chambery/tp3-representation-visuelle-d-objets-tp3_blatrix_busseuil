@@ -42,7 +42,9 @@ class Wall:
                                       'height': self.parameters['height'], \
                                       'thickness': self.parameters['thickness'], \
                                       'color': self.parameters['color'],
-                                      'position': self.parameters['position']})
+                                      'position': self.parameters['position'],
+                                      'orientation' : self.parameters['orientation'],
+                                      'edges':True})
         self.objects.append(self.parentSection) 
         
     # Getter
@@ -63,11 +65,19 @@ class Wall:
     
     # Adds an object    
     def add(self, x):    
-        # A compléter en remplaçant pass par votre code
-        pass        
+        s = self.findSection(x)
+        if s is not None :
+            nouvelle_sections = s[1].createNewSections(x)
+            self.objects.pop(s[0])
+            self.objects.extend(nouvelle_sections)
+            print(len(self.objects))
+        return self
                     
     # Draws the faces
     def draw(self):
-        # A compléter en remplaçant pass par votre code
-        pass
+        gl.glPushMatrix()
+        for i in self.objects:
+            i.draw()
+        gl.glPopMatrix()
+            
   
